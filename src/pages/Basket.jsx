@@ -5,7 +5,8 @@ import { useCollectionsContext } from '../context/CollectionsContext';
 import formatCurrency from '../utilities/formatCurrency';
 
 const Basket = () => {
-    const { basket, getPromoCodes } = useCollectionsContext();
+    const { getBasket, getPromoCodes } = useCollectionsContext();
+    const [basket, setBasket] = useState(getBasket());
     const [total, setTotal] = useState(0);
     const [promoCodes, setPromoCodes] = useState({});
     const [showRedeemBtn, setShowRedeemBtn] = useState(false);
@@ -43,8 +44,6 @@ const Basket = () => {
         setIsRedeemed(true);
         console.log(discount);
     };
-
-    console.log(basket);
 
     const BasketItem = ({ item }) => (
         <div className='flex gap-2'>

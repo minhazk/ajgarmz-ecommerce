@@ -3,76 +3,17 @@ import { Link } from 'react-router-dom';
 import CategoryCard from '../components/Home/CategoryCard';
 import Slider from '../components/Home/Slider';
 import { useCollectionsContext } from '../context/CollectionsContext';
+import { v4 as uuidv4 } from 'uuid';
 
 const Home = () => {
     const { items } = useCollectionsContext();
-    const tempItems = [
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-        {
-            images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
-            name: 'Very Long Item Name For Width Test',
-            price: 148.88,
-        },
-    ];
+    const tempItems = [];
+
+    const dummyItem = {
+        images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
+        name: 'Coming Soon...',
+        price: 1000,
+    };
 
     return (
         <>
@@ -85,8 +26,24 @@ const Home = () => {
                         <CategoryCard name='Accessories' image='https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg' />
                     </div>
                 </div>
-                <Slider title='New Releases' items={tempItems} />
-                <Slider title='Sale Items' items={items} />
+                <Slider
+                    title='New Releases'
+                    items={[
+                        ...items.filter(item => !!item.images.length),
+                        ...Array.from({ length: items.length < 4 ? 4 - items.length : 0 }).map(x => {
+                            return { id: uuidv4(), ...dummyItem };
+                        }),
+                    ]}
+                />
+                <Slider
+                    title='Sale Items'
+                    items={[
+                        ...tempItems,
+                        ...Array.from({ length: tempItems.length < 4 ? 4 - tempItems.length : 0 }).map(x => {
+                            return { id: uuidv4(), ...dummyItem };
+                        }),
+                    ]}
+                />
             </div>
         </>
     );

@@ -7,6 +7,7 @@ import Item from '../Item';
 
 const Slider = ({ title, items }) => {
     const [imagesPerSlide, setImagesPerSlide] = useState();
+    // const [sliderItems, setSliderItems] =
     const [slide, setSlide] = useState(0);
 
     const handleSlides = () => {
@@ -16,7 +17,6 @@ const Slider = ({ title, items }) => {
     };
 
     const nextSlide = () => {
-        // check condition if we are last slide -> return
         if (-slide === Math.ceil(items.length / imagesPerSlide) - 1) return;
         setSlide(prev => prev - 1);
     };
@@ -41,12 +41,10 @@ const Slider = ({ title, items }) => {
             <div className='w-full overflow-x-hidden'>
                 <div
                     className={`grid grid-flow-col gap-4 transition-transform duration-700`}
-                    style={{ gridAutoColumns: `calc(100% / ${imagesPerSlide} - .75rem)`, transform: `translateX(calc(${slide} * 100% - ${slide} * -1rem))` }}
+                    style={{ gridAutoColumns: `calc(100% / ${imagesPerSlide} - ${1 - 1 / imagesPerSlide}rem)`, transform: `translateX(calc(${slide} * 100% - ${slide} * -1rem))` }}
                 >
                     {items.map((item, i) => (
-                        <div className='' key={i}>
-                            <Item item={item} key={i} />
-                        </div>
+                        <Item item={item} key={item.id} />
                     ))}
                 </div>
             </div>

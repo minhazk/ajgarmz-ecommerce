@@ -4,6 +4,8 @@ import { doc, setDoc, getDocs, getDoc, collection, query, where, documentId } fr
 import { ref as sRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import uuid from 'react-uuid';
 
+const LOCALSTORAGE_BASKET_KEY = 'ajgarmz_basket';
+
 const CollectionsContext = createContext();
 
 export const useCollectionsContext = () => useContext(CollectionsContext);
@@ -12,7 +14,6 @@ export const CollectionsProvider = ({ children }) => {
     const [items, setItems] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const [basket, setBasket] = useState([]);
 
     useEffect(() => {
         getItems();
@@ -102,7 +103,14 @@ export const CollectionsProvider = ({ children }) => {
         setItems(items => [...items, fullItem]);
     };
 
-    const addToBasket = item => setBasket(items => [...items, item]);
+    const addToBasket = item => {
+        const basket = JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
+        localStorage.setItem(LOCALSTORAGE_BASKET_KEY, JSON.stringify([...basket, item]));
+    };
+
+    const getBasket = () => {
+        return JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
+    };
 
     const getPromoCodes = async () => {
         const querySnapshot = await getDocs(collection(db, 'promoCodes'));
@@ -113,5 +121,5 @@ export const CollectionsProvider = ({ children }) => {
         return promoCodes;
     };
 
-    return <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, basket, addToBasket, getPromoCodes, getSpecificItems }}>{children}</CollectionsContext.Provider>;
+    return <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, getBasket, addToBasket, getPromoCodes, getSpecificItems }}>{children}</CollectionsContext.Provider>;
 };
