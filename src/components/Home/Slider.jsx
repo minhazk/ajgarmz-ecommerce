@@ -49,10 +49,8 @@ const Slider = ({ title, items }) => {
                 </div>
             </div>
 
-            {/* MOBILE IS FUCKED UP WHEN GOING TO MORE SLIDES */}
-
             <div className='mt-3 flex items-center'>
-                <Link to='/collections' className='underline text-sm'>
+                <Link to='/collections' className='underline text-sm hidden xs:block'>
                     Browse all items
                 </Link>
                 <p className='flex justify-center items-center gap-1 text-xs grow'>
@@ -63,7 +61,7 @@ const Slider = ({ title, items }) => {
                         of <span className='ml-1'>{Math.ceil(items.length / imagesPerSlide)}</span>
                     </span>
                 </p>
-                <button onClick={nextSlide} className='bg-accent flex items-center gap-1 py-2 px-4 rounded-md text-sm'>
+                <button onClick={nextSlide} className='bg-accent items-center gap-1 py-2 px-4 rounded-md text-sm hidden xs:flex'>
                     Next Page
                     <AiOutlineArrowRight />
                 </button>
