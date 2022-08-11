@@ -37,8 +37,8 @@ const Item = ({ item }) => {
                     </Link>
                 </div>
             </div>
-            <p className='text-xs my-2'>{item.name}</p>
-            <p className='text-xs font-semibold ml-auto'>{formatCurrency(item.price)}</p>
+            <p className='text-sm my-2 leading-5 max-h-10 overflow-hidden'>{item.name}</p>
+            <p className='text-sm font-semibold ml-auto'>{formatCurrency(item.price)}</p>
         </div>
     );
 };

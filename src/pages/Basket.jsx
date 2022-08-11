@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MdOutlineClose } from 'react-icons/md';
+import { FiTrash2 } from 'react-icons/fi';
 import Paypal from '../components/Paypal';
 import { useCollectionsContext } from '../context/CollectionsContext';
 import formatCurrency from '../utilities/formatCurrency';
 
 const Basket = () => {
-    const { getBasket, getPromoCodes } = useCollectionsContext();
+    const { getBasket, removeFromBasket, getPromoCodes } = useCollectionsContext();
     const [basket, setBasket] = useState(getBasket());
     const [total, setTotal] = useState(0);
     const [promoCodes, setPromoCodes] = useState({});
@@ -15,17 +15,12 @@ const Basket = () => {
     const [discount, setDiscount] = useState(0);
     const [isRedeemed, setIsRedeemed] = useState(false);
 
-    useEffect(() => {
-        setTotal(basket.reduce((prev, curr) => prev + Number(curr.price), 0));
-        (async () => {
-            setPromoCodes(await getPromoCodes());
-        })();
-    }, []);
+    const handleTotal = () => basket.reduce((prev, curr) => prev + Number(curr.price), 0);
 
-    const tempPromoCodes = [
-        { name: 'code10', discount: 10 },
-        { name: 'code20', discount: 20 },
-    ];
+    useEffect(() => {
+        setTotal(handleTotal());
+        (async () => setPromoCodes(await getPromoCodes()))();
+    }, []);
 
     const handleShowRedeem = e => {
         setPromoInput(e.target.value);
@@ -42,18 +37,26 @@ const Basket = () => {
         setTotal(prev => prev - discount);
         setRedeemMsg(`Promo code redeemed! You saved ${formatCurrency(discount)}!`);
         setIsRedeemed(true);
-        console.log(discount);
+    };
+
+    const handleRemoveItem = id => {
+        removeFromBasket(id);
+        setBasket(getBasket());
+        setTotal(handleTotal());
     };
 
     const BasketItem = ({ item }) => (
-        <div className='flex gap-2'>
-            <img className='w-20 h-20 sm:w-28 sm:h-28 aspect-square object-cover rounded-md' src={item.image} alt='basket item' />
-            <div className='grow'>
-                <h2 className='text-sm sm:text-base font-bold'>{item.name}</h2>
-                <p className='text-xs sm:text-sm'>Size: {item.size}</p>
-                <p className='text-xs sm:text-sm'>Colour: {item.colour}</p>
+        <div onClick={() => handleRemoveItem(item.id)} className='group cursor-pointer'>
+            <div className='flex gap-2 group-hover:opacity-50 relative '>
+                <img className='w-20 h-20 sm:w-28 sm:h-28 aspect-square object-cover rounded-md' src={item.image} alt='basket item' />
+                <div className='grow'>
+                    <h2 className='text-sm sm:text-base font-bold'>{item.name}</h2>
+                    <p className='text-xs sm:text-sm'>Size: {item.size}</p>
+                    <p className='text-xs sm:text-sm'>Colour: {item.colour}</p>
+                </div>
+                <h2 className='text-sm sm:text-base font-semibold pl-1 sm:pl-5'>{formatCurrency(item.price)}</h2>
+                <FiTrash2 size={18} color={'red'} className='absolute bottom-3 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
             </div>
-            <h2 className='text-sm sm:text-base font-semibold pl-1 sm:pl-5'>{formatCurrency(item.price)}</h2>
         </div>
     );
 

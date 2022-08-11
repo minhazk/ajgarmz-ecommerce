@@ -30,7 +30,7 @@ const Home = () => {
                     title='New Releases'
                     items={[
                         ...items.filter(item => !!item.images.length),
-                        ...Array.from({ length: items.length < 4 ? 4 - items.length : 0 }).map(x => {
+                        ...Array.from({ length: items.filter(item => !!item.images.length).length < 4 ? 4 - items.filter(item => !!item.images.length).length : 0 }).map(x => {
                             return { id: uuidv4(), ...dummyItem };
                         }),
                     ]}

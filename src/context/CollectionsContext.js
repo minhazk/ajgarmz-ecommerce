@@ -112,6 +112,11 @@ export const CollectionsProvider = ({ children }) => {
         return JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
     };
 
+    const removeFromBasket = id => {
+        const basket = JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
+        localStorage.setItem(LOCALSTORAGE_BASKET_KEY, JSON.stringify(basket.filter(item => item.id !== id)));
+    };
+
     const getPromoCodes = async () => {
         const querySnapshot = await getDocs(collection(db, 'promoCodes'));
         const promoCodes = [];
@@ -121,5 +126,9 @@ export const CollectionsProvider = ({ children }) => {
         return promoCodes;
     };
 
-    return <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, getBasket, addToBasket, getPromoCodes, getSpecificItems }}>{children}</CollectionsContext.Provider>;
+    return (
+        <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, getBasket, removeFromBasket, addToBasket, getPromoCodes, getSpecificItems }}>
+            {children}
+        </CollectionsContext.Provider>
+    );
 };

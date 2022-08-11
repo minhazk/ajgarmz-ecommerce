@@ -61,7 +61,7 @@ const Paypal = ({ items, discount }) => {
 
     return (
         <PayPalScriptProvider options={options}>
-            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleOnApprove} style={style} disabled={loading} className='col-span-full py-1 text-sm' />
+            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleOnApprove} style={style} disabled={loading} className='col-span-full py-1 text-sm z-0' />
         </PayPalScriptProvider>
     );
 };
