@@ -12,6 +12,8 @@ const Home = () => {
     const dummyItem = {
         images: ['https://i.postimg.cc/7LsPwYHG/dummy-Image.jpg'],
         name: 'Coming Soon...',
+        sizes: ['XS', 'S', 'M', 'L', 'XL'],
+        colours: ['Black', 'White'],
         price: 1000,
     };
 

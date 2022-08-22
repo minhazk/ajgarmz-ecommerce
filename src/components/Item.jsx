@@ -10,7 +10,7 @@ const Item = ({ item }) => {
     const [colour, setColour] = useState();
     const [hovering, setHovering] = useState(false);
 
-    const handleAddToBasket = () => {
+    const handleAddToBasket = e => {
         addToBasket({
             id: item.id,
             name: item.name,
@@ -19,6 +19,10 @@ const Item = ({ item }) => {
             size,
             colour,
         });
+        e.target.classList.add('add-item-anim');
+        setTimeout(() => {
+            e.target.classList.remove('add-item-anim');
+        }, 700);
     };
 
     return (
@@ -27,12 +31,12 @@ const Item = ({ item }) => {
                 <img className='w-full aspect-square object-cover rounded-sm' src={item.images[0]} alt='item' />
 
                 <div className={`absolute w-full ${hovering ? 'bottom-0' : '-bottom-full'} bg-primary grid grid-cols-2 p-2 gap-2 transition-[bottom]`}>
-                    <DropDown setOption={setSize} options={['XL', 'L', 'M', 'S', 'XS']} />
-                    <DropDown setOption={setColour} options={['Black', 'White', 'Gray', 'Blue']} />
-                    <button onClick={handleAddToBasket} className='text-center text-sm px-2 uppercase bg-accent rounded-md'>
+                    <DropDown setOption={setSize} options={item.sizes || []} />
+                    <DropDown setOption={setColour} options={item.colours || []} />
+                    <button onClick={handleAddToBasket} className='relative text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-70 transition-opacity duration-500'>
                         Add
                     </button>
-                    <Link className='text-center text-sm px-2 uppercase bg-accent rounded-md' to={`/item/${item.id}`}>
+                    <Link className='text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-70 transition-opacity duration-500' to={`/item/${item.id}`}>
                         View
                     </Link>
                 </div>

@@ -4,7 +4,8 @@ import { doc, setDoc, getDocs, getDoc, collection, query, where, documentId } fr
 import { ref as sRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import uuid from 'react-uuid';
 
-const LOCALSTORAGE_BASKET_KEY = 'ajgarmz_basket';
+const LOCAL_STORAGE_BASKET_KEY = 'ajgarmz_basket';
+const LOCAL_STORAGE_ITEMS_KEY = 'ajgarmz_items';
 
 const CollectionsContext = createContext();
 
@@ -14,14 +15,16 @@ export const CollectionsProvider = ({ children }) => {
     const [items, setItems] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [basket, setBasket] = useState([]);
 
     useEffect(() => {
         getItems();
+        setBasket(getBasket());
     }, []);
 
     const getItems = async () => {
         setItems([]);
-        const ls_items = JSON.parse(localStorage.getItem('ajgarmz-items')) || null;
+        const ls_items = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ITEMS_KEY)) || null;
         if (ls_items && new Date() - new Date(ls_items.last_update) < 90 * 60 * 1000) return setItems(ls_items.items);
         const querySnapshot = await getDocs(collection(db, 'items'));
         const items = [];
@@ -30,7 +33,7 @@ export const CollectionsProvider = ({ children }) => {
         });
         setItems(items);
         localStorage.setItem(
-            'ajgarmz-items',
+            LOCAL_STORAGE_ITEMS_KEY,
             JSON.stringify({
                 last_update: new Date(),
                 items,
@@ -39,7 +42,7 @@ export const CollectionsProvider = ({ children }) => {
     };
 
     const getItem = async id => {
-        const ls_items = JSON.parse(localStorage.getItem('ajgarmz-items')) || null;
+        const ls_items = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ITEMS_KEY)) || null;
         if (ls_items) {
             const filter = ls_items.items.find(item => item.id === id);
             if (filter) return filter;
@@ -104,17 +107,20 @@ export const CollectionsProvider = ({ children }) => {
     };
 
     const addToBasket = item => {
-        const basket = JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
-        localStorage.setItem(LOCALSTORAGE_BASKET_KEY, JSON.stringify([...basket, item]));
+        const ls_basket = JSON.parse(localStorage.getItem(LOCAL_STORAGE_BASKET_KEY)) || [];
+        setBasket([...ls_basket, item]);
+        localStorage.setItem(LOCAL_STORAGE_BASKET_KEY, JSON.stringify(basket));
     };
 
     const getBasket = () => {
-        return JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
+        return basket;
+        return JSON.parse(localStorage.getItem(LOCAL_STORAGE_BASKET_KEY)) || [];
     };
 
     const removeFromBasket = id => {
-        const basket = JSON.parse(localStorage.getItem(LOCALSTORAGE_BASKET_KEY)) || [];
-        localStorage.setItem(LOCALSTORAGE_BASKET_KEY, JSON.stringify(basket.filter(item => item.id !== id)));
+        const ls_basket = JSON.parse(localStorage.getItem(LOCAL_STORAGE_BASKET_KEY)) || [];
+        setBasket(ls_basket.filter(item => item.id !== id));
+        localStorage.setItem(LOCAL_STORAGE_BASKET_KEY, JSON.stringify(basket));
     };
 
     const getPromoCodes = async () => {
@@ -127,7 +133,7 @@ export const CollectionsProvider = ({ children }) => {
     };
 
     return (
-        <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, getBasket, removeFromBasket, addToBasket, getPromoCodes, getSpecificItems }}>
+        <CollectionsContext.Provider value={{ items, createItem, uploadProgress, getItem, getBasket, basket, removeFromBasket, addToBasket, getPromoCodes, getSpecificItems }}>
             {children}
         </CollectionsContext.Provider>
     );

@@ -8,9 +8,11 @@ import { useUserContext } from '../context/UserContext';
 import SearchBar from './SearchBar';
 import Login from './Login';
 import SignUp from './SignUp';
+import { useCollectionsContext } from '../context/CollectionsContext';
 
 const NavBar = () => {
     const { user, logout } = useUserContext();
+    const { basket } = useCollectionsContext();
     const tempMenBtns = ['Tshirts', 'Hoodies', 'Shirts', 'Jumpers', 'Jackets', 'Watches', 'Belts', 'Trainers'];
     const tempWomenBtns = ['Tshirts', 'Jackets', 'Dresses', 'Accessories', 'Shoes', 'Watches', 'Tops', 'Shirts'];
 
@@ -21,9 +23,11 @@ const NavBar = () => {
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('resize', () => {
+        const handleResize = () => {
             if (window.innerWidth > 768) setIsBurgerOpen(false);
-        });
+        };
+        window.addEventListener('resize', handleResize);
+        return window.removeEventListener('resize', handleResize);
     }, []);
 
     return (
@@ -65,7 +69,7 @@ const NavBar = () => {
                                 Logout
                             </button>
                             <button className='text-sm hidden md:block'>{<BiUser size={19} />}</button>
-                            {user && (
+                            {user && user.type === 'admin' && (
                                 <Link to='/admin'>
                                     <MdDashboardCustomize size={20} />
                                 </Link>
@@ -81,8 +85,13 @@ const NavBar = () => {
                             </button>
                         </>
                     )}
-                    <Link to='/basket' className='my-auto'>
+                    <Link to='/basket' className='my-auto relative'>
                         <BsBag />
+                        {!!basket.length && (
+                            <div className='absolute bottom-0 right-0 translate-y-1/2 translate-x-1/2 text-[.6rem] font-bold bg-orange rounded-full aspect-square w-[.9rem] flex justify-center items-center'>
+                                {basket.length}
+                            </div>
+                        )}
                     </Link>
                 </div>
 
@@ -153,7 +162,7 @@ const NavBar = () => {
                     SALE
                 </Link>
                 {subLinks.map(btn => (
-                    <Link to='/collections' className='text-sm font-bold py-3 px-4 hover:bg-primary transition-[background-color] duration-200' key={btn}>
+                    <Link to={`/collections/${btn}`} className='text-sm font-bold py-3 px-4 hover:bg-primary transition-[background-color] duration-200' key={btn}>
                         {btn}
                     </Link>
                 ))}

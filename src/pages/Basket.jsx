@@ -62,13 +62,14 @@ const Basket = () => {
 
     return (
         <div className='h-full bg-white flex-1 text-primary'>
-            <div className='max-w-5xl xl:max-w-7xl mx-auto p-2 xs:p-5 lg:flex lg:gap-10'>
+            <div className='max-w-5xl xl:max-w-7xl mx-auto p-2 xs:p-5 md:flex md:gap-10'>
                 <div className='flex-1 min-w-[60%] flex flex-col'>
                     <h1 className='text-xl md:text-2xl mb-4 font-semibold'>Items</h1>
                     <div className='flex flex-col gap-3 mt-2 overflow-y-auto pr-4' style={{ maxHeight: `calc(7rem * 3 + .5rem * 3)` }}>
                         {basket.map((item, i) => (
                             <BasketItem item={item} key={i} />
                         ))}
+                        {!basket.length && <p className='text-sm text-center text-muted'>There are no items in your basket</p>}
                     </div>
                 </div>
 
@@ -103,7 +104,6 @@ const Basket = () => {
                         <div className='col-span-full h-[1px] my-1 bg-muted'></div>
                         <p className='text-sm sm:text-base font-semibold '>Total</p>
                         <p className='text-sm sm:text-base justify-self-end'>{formatCurrency(total)}</p>
-                        {/* <button className='col-span-full rounded-md py-1 px-2 bg-accent text-white mt-1'>Pay Now</button> */}
                         <Paypal items={basket} discount={discount} />
                         {redeemMsg && <p className={`col-span-full text-sm text-center ${discount ? 'text-[#57b857]' : 'text-[#dd4242]'} font-semibold`}>{redeemMsg}</p>}
                     </div>

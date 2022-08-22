@@ -23,3 +23,30 @@ body {
 ::-webkit-scrollbar-track {
     @apply bg-transparent;
 }
+
+.add-item-anim::before {
+    content: '+1';
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-size: 0.65rem;
+    color: orange;
+    animation: flare 700ms linear forwards;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@keyframes flare {
+    0% {
+        /* transform: translateY(0); */
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}

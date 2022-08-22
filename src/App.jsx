@@ -21,6 +21,7 @@ const App = () => {
                         <Routes>
                             <Route path='/' exact element={<Home />} />
                             <Route path='/collections' element={<Collections />} />
+                            <Route path='/collections/:category' element={<Collections />} />
                             <Route path='/item/:id' element={<Item />} />
                             <Route path='/basket' element={<Basket />} />
                             <Route path='/admin' element={<AdminDashboard />} />

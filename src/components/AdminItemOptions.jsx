@@ -33,7 +33,7 @@ const AdminItemOptions = ({ name, options, setOptions, limited }) => {
                             if (!limited) {
                                 setOptions(prev => [...prev, val.replaceAll('%', ' ')]);
                             } else {
-                                setOptions([val.replaceAll('%', ' ')]);
+                                setOptions([val.replaceAll('%', ' ').trim()]);
                             }
                         }
                     }}

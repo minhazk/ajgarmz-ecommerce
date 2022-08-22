@@ -16,17 +16,17 @@ const Footer = () => {
                 <p className='text-sm sm:text-center'>Subscribe to our newsletter</p>
                 <input className='bg-white py-1 px-2 my-2 text-sm rounded-md w-full max-w-[40vw] text-center text-primary outline-none' type='email' placeholder='johndoe@gmail.com' />
                 <div className='flex gap-2 mt-1 sm:justify-center'>
-                    <a href='/'>
-                        <BsWhatsapp />
+                    <a href='/' target='_blank'>
+                        <BsWhatsapp className='hover:text-orange' />
                     </a>
-                    <a href='/'>
-                        <BsInstagram />
+                    <a href='/' target='_blank'>
+                        <BsInstagram className='hover:text-orange' />
                     </a>
-                    <a href='/'>
-                        <BsSnapchat />
+                    <a href='/' target='_blank'>
+                        <BsSnapchat className='hover:text-orange' />
                     </a>
-                    <a href='/'>
-                        <BsTwitter />
+                    <a href='/' target='_blank'>
+                        <BsTwitter className='hover:text-orange' />
                     </a>
                 </div>
             </div>

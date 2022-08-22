@@ -13,7 +13,7 @@ const AdminDashboard = () => {
     const [colours, setColours] = useState(['Black', 'White']);
     const [gender, setGender] = useState(['Men', 'Women']);
     const [type, setType] = useState(['Clothing', 'Footwear', 'Accessories']);
-    const [category, setCategory] = useState(['Tshirt']);
+    const [category, setCategory] = useState(['Tshirts']);
 
     const { createItem, uploadProgress } = useCollectionsContext();
     const { user } = useUserContext();
@@ -25,19 +25,25 @@ const AdminDashboard = () => {
     if (user?.type !== 'admin') return <Error404 />;
 
     const handleSubmit = () => {
+        if (images.length === 0) return alert('Add at least one image');
+
+        for (let input of [nameRef.current, priceRef.current]) {
+            if (input.value === '' || input.value === null) {
+                return alert(input.dataset.name + ' cannot be empty!');
+            }
+        }
+
         const item = {
             images,
             name: nameRef.current.value,
             description: descriptionRef.current.value,
             price: priceRef.current.value,
-            sizes: JSON.stringify(sizes),
-            colours: JSON.stringify(colours),
-            gender: JSON.stringify(gender),
-            type: JSON.stringify(type),
-            category: JSON.stringify(category),
+            sizes,
+            colours,
+            gender,
+            type,
+            category,
         };
-
-        console.log(item);
 
         createItem(item);
     };
@@ -89,8 +95,8 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className='flex flex-col gap-3'>
-                    <input ref={nameRef} className='py-2 px-2 text-sm rounded-md w-full border border-muted text-primary outline-none' placeholder='Item Name' />
-                    <input ref={priceRef} className='py-2 px-2 text-sm rounded-md w-full border border-muted text-primary outline-none' type='number' placeholder='123.45' />
+                    <input data-name='Name' ref={nameRef} className='py-2 px-2 text-sm rounded-md w-full border border-muted text-primary outline-none' placeholder='Item Name' />
+                    <input data-name='Price' ref={priceRef} className='py-2 px-2 text-sm rounded-md w-full border border-muted text-primary outline-none' type='number' placeholder='123.45' />
                     <input ref={descriptionRef} className='py-2 px-2 text-sm rounded-md w-full border border-muted text-primary outline-none' placeholder='Description' />
 
                     <AdminItemOptions name='Sizes' options={sizes} setOptions={setSizes} />

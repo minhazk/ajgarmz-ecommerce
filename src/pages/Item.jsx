@@ -61,12 +61,11 @@ const Item = () => {
 
                     <h3 className='text-base font-semibold mt-2'>Product description</h3>
                     <p className='text-sm mt-2'>{!!item.description && item.description}</p>
-                    {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. */}
 
                     <p className='text-sm mt-3 font-semibold'>Choose your options</p>
 
-                    <DropDown setOption={setSize} options={JSON.parse(item.sizes.replace(/'/g, '"'))} styles='p-1 mt-4' />
-                    <DropDown setOption={setColour} options={JSON.parse(item.colours.replace(/'/g, '"'))} styles='p-1 mt-4' />
+                    <DropDown setOption={setSize} options={item.sizes} styles='p-1 mt-4' />
+                    <DropDown setOption={setColour} options={item.colours} styles='p-1 mt-4' />
 
                     <button onClick={handleAddToBasket} className='uppercase text-center w-full p-2 text-sm mt-5 bg-accent hover:bg-orange transition-all rounded-lg'>
                         {item ? 'Add To Basket' : 'Loading...'}
