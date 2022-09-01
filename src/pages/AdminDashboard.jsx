@@ -9,7 +9,7 @@ import AdminItemOptions from '../components/AdminItemOptions';
 const AdminDashboard = () => {
     const [images, setImages] = useState([]);
     const [isHovering, setIsHovering] = useState(false);
-    const [sizes, setSizes] = useState(['XL', 'L', 'M', 'S', 'XS']);
+    const [sizes, setSizes] = useState(['XL', 'L', 'M', 'S', 'XS'].reverse());
     const [colours, setColours] = useState(['Black', 'White']);
     const [gender, setGender] = useState(['Men', 'Women']);
     const [type, setType] = useState(['Clothing', 'Footwear', 'Accessories']);

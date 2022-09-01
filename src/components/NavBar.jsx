@@ -126,7 +126,7 @@ const NavBar = () => {
 
                     <div className='grow flex flex-col gap-2 p-2'>
                         {subLinks.map(btn => (
-                            <Link onClick={() => setIsBurgerOpen(false)} to='/collections' className='text-sm font-bold text-primary bg-muted w-full text-center p-3' key={btn}>
+                            <Link onClick={() => setIsBurgerOpen(false)} to={`/collections/${btn}`} className='text-sm font-bold text-primary bg-muted w-full text-center p-3' key={btn}>
                                 {btn}
                             </Link>
                         ))}

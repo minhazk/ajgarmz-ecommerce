@@ -10,7 +10,7 @@ export const useUserContext = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password).then(cred => setDoc(doc(db, 'users', cred.user.uid), { type: 'user' }));
+    const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password).then(cred => setDoc(doc(db, 'users', cred.user.uid), { type: 'user', email }));
 
     const login = (email, password) => signInWithEmailAndPassword(auth, email, password);
 

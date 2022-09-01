@@ -33,10 +33,10 @@ const Item = ({ item }) => {
                 <div className={`absolute w-full ${hovering ? 'bottom-0' : '-bottom-full'} bg-primary grid grid-cols-2 p-2 gap-2 transition-[bottom]`}>
                     <DropDown setOption={setSize} options={item.sizes || []} />
                     <DropDown setOption={setColour} options={item.colours || []} />
-                    <button onClick={handleAddToBasket} className='relative text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-70 transition-opacity duration-500'>
+                    <button onClick={handleAddToBasket} className='relative text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-80 transition-opacity duration-500'>
                         Add
                     </button>
-                    <Link className='text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-70 transition-opacity duration-500' to={`/item/${item.id}`}>
+                    <Link className='text-center text-xs md:text-sm px-2 uppercase bg-accent rounded-md hover:opacity-80 transition-opacity duration-500' to={`/item/${item.id}`}>
                         View
                     </Link>
                 </div>
